@@ -28,6 +28,7 @@ const useCartStore = create((set) => ({
           {
             ...product,
             quantity: 1,
+            addedAt: Date.now(),
           },
         ],
       };

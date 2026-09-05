@@ -3,10 +3,16 @@ import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ShoppingCart, Star } from "lucide-react";
 import { getProductById } from "../api/products";
 import useCartStore from "../store/useCartStore";
+import {
+  formatPrice,
+  getDiscountedPrice,
+  toTitleCase,
+} from "../utils/format";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const addItem = useCartStore((state) => state.addItem);
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -69,6 +75,8 @@ export default function ProductDetailPage() {
     );
   }
 
+  const rating = product.rating || 0;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
       <Link
@@ -90,23 +98,63 @@ export default function ProductDetailPage() {
 
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-teal-700">
-            {product.category}
+            {toTitleCase(product.category)}
           </p>
 
           <h1 className="mt-2 font-display text-4xl font-bold tracking-tight text-slate-900">
             {product.title}
           </h1>
 
-          <div className="mt-4 flex items-center gap-2">
-            <Star size={18} fill="currentColor" />
-            <span className="font-medium text-slate-700">
-              {product.rating}
+          {/* Five Star Rating */}
+          <div className="mt-4 flex items-center gap-1">
+            {[1, 2, 3, 4, 5].map((star) => {
+              const fillPercentage = Math.min(
+                100,
+                Math.max(0, (rating - (star - 1)) * 100)
+              );
+
+              return (
+                <span
+                  key={star}
+                  className="relative inline-block"
+                >
+                  {/* Empty Star */}
+                  <Star
+                    size={18}
+                    className="text-slate-300"
+                  />
+
+                  {/* Filled Star */}
+                  <span
+                    className="absolute left-0 top-0 overflow-hidden"
+                    style={{
+                      width: `${fillPercentage}%`,
+                    }}
+                  >
+                    <Star
+                      size={18}
+                      className="fill-current text-yellow-400"
+                    />
+                  </span>
+                </span>
+              );
+            })}
+
+            <span className="ml-2 font-medium text-slate-700">
+              {rating}
             </span>
           </div>
 
-          <p className="mt-6 text-3xl font-bold text-slate-900">
-            ${product.price}
-          </p>
+          {/* Price */}
+          <div className="mt-6">
+            <p className="text-3xl font-bold text-slate-900">
+              {formatPrice(getDiscountedPrice(product))}
+            </p>
+
+            <p className="mt-1 text-lg text-slate-400 line-through">
+              {formatPrice(product.price)}
+            </p>
+          </div>
 
           <p className="mt-6 leading-7 text-slate-600">
             {product.description}
@@ -123,13 +171,13 @@ export default function ProductDetailPage() {
           </div>
 
           <button
-  type="button"
-  onClick={() => addItem(product)}
-  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-teal-700 px-5 py-3 font-semibold text-white transition hover:bg-teal-800"
->
-  <ShoppingCart size={20} />
-  Add to Cart
-</button>
+            type="button"
+            onClick={() => addItem(product)}
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-teal-700 px-5 py-3 font-semibold text-white transition hover:bg-teal-800"
+          >
+            <ShoppingCart size={20} />
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>

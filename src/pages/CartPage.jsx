@@ -6,7 +6,7 @@ import {
   ShoppingCart,
   Trash2,
 } from "lucide-react";
-
+import { formatPrice, timeAgo } from "../utils/format";
 import useCartStore from "../store/useCartStore";
 import Modal from "../components/Modal";
 
@@ -94,8 +94,15 @@ export default function CartPage() {
                       </h2>
 
                       <p className="mt-1 text-sm text-slate-500">
-                        ${item.price} each
+                        {formatPrice(item.price)} each
                       </p>
+
+                      {/* Added Time */}
+                      {item.addedAt && (
+                        <p className="mt-1 text-xs text-slate-400">
+                          Added {timeAgo(item.addedAt)}
+                        </p>
+                      )}
                     </div>
 
                     {/* Remove Button */}
@@ -148,10 +155,7 @@ export default function CartPage() {
 
                     {/* Item Total */}
                     <p className="font-bold text-slate-900">
-                      $
-                      {(item.price * item.quantity).toFixed(
-                        2
-                      )}
+                      {formatPrice(item.price * item.quantity)}
                     </p>
                   </div>
                 </div>
@@ -167,14 +171,12 @@ export default function CartPage() {
 
             <div className="mt-6 flex items-center justify-between text-slate-600">
               <span>Items</span>
-
               <span>{itemCount}</span>
             </div>
 
             <div className="mt-3 flex items-center justify-between text-slate-600">
               <span>Subtotal</span>
-
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
 
             <div className="my-5 border-t border-slate-200" />
@@ -185,7 +187,7 @@ export default function CartPage() {
               </span>
 
               <span className="text-2xl font-bold text-slate-900">
-                ${total.toFixed(2)}
+                {formatPrice(total)}
               </span>
             </div>
 

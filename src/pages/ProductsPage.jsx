@@ -55,6 +55,11 @@ export default function ProductsPage() {
         <p className="mt-3 max-w-2xl text-slate-600">
           Explore our collection of products and find something you'll love.
         </p>
+
+        {/* Result Count */}
+        <p className="mt-4 text-sm font-medium text-slate-500">
+          {products.length} products found
+        </p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
