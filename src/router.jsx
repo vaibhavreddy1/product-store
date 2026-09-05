@@ -3,7 +3,7 @@ import {
 } from "react-router-dom";
 
 import RootLayout from "./layouts/RootLayout";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/RequireAdmin";
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";

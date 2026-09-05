@@ -1,15 +1,12 @@
 import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
-  isAuthenticated: false,
+  isAdmin: false,
 
-  login: () => {
-    set({ isAuthenticated: true });
-  },
-
-  logout: () => {
-    set({ isAuthenticated: false });
-  },
+  toggleAdmin: () =>
+    set((state) => ({
+      isAdmin: !state.isAdmin,
+    })),
 }));
 
 export default useAuthStore;
