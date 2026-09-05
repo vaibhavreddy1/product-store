@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ShoppingCart, Star } from "lucide-react";
 import { getProductById } from "../api/products";
+import useCartStore from "../store/useCartStore";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
-
+  const addItem = useCartStore((state) => state.addItem);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -122,12 +123,13 @@ export default function ProductDetailPage() {
           </div>
 
           <button
-            type="button"
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-teal-700 px-5 py-3 font-semibold text-white transition hover:bg-teal-800"
-          >
-            <ShoppingCart size={20} />
-            Add to Cart
-          </button>
+  type="button"
+  onClick={() => addItem(product)}
+  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-teal-700 px-5 py-3 font-semibold text-white transition hover:bg-teal-800"
+>
+  <ShoppingCart size={20} />
+  Add to Cart
+</button>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 
+import useCartStore from "../store/useCartStore";
 import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
@@ -12,6 +13,12 @@ export default function Navbar() {
         ? "text-teal-700"
         : "text-slate-600 hover:text-teal-700"
     }`;
+    const items = useCartStore((state) => state.items);
+
+const cartCount = items.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
 
   return (
     <nav className="border-b border-slate-200 bg-white">
@@ -38,12 +45,19 @@ export default function Navbar() {
           </NavLink>
 
           <NavLink
-            to="/cart"
-            className="flex items-center gap-2 text-slate-600 transition hover:text-teal-700"
-          >
-            <ShoppingCart size={20} strokeWidth={1.75} />
-            <span>Cart</span>
-          </NavLink>
+  to="/cart"
+  className="flex items-center gap-2 text-slate-600 transition hover:text-teal-700"
+>
+  <ShoppingCart size={20} strokeWidth={1.75} />
+
+  <span>Cart</span>
+
+  {cartCount > 0 && (
+    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-teal-700 px-1 text-xs font-bold text-white">
+      {cartCount}
+    </span>
+  )}
+</NavLink>
 
         </div>
       </div>
