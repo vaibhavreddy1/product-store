@@ -1,0 +1,13 @@
+export default function ProductsPage() {
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      <h1 className="font-display text-4xl font-bold text-slate-900">
+        Products
+      </h1>
+
+      <p className="mt-3 text-slate-600">
+        Browse our products.
+      </p>
+    </div>
+  );
+}

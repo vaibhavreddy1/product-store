@@ -1,41 +1,49 @@
 import {
   Boxes,
-  Search,
   ShoppingCart,
 } from "lucide-react";
 
+import { NavLink } from "react-router-dom";
+
 export default function Navbar() {
+  const linkClasses = ({ isActive }) =>
+    `text-sm font-medium transition ${
+      isActive
+        ? "text-teal-700"
+        : "text-slate-600 hover:text-teal-700"
+    }`;
+
   return (
     <nav className="border-b border-slate-200 bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
 
-        {/* Logo */}
-        <div className="flex items-center gap-2 text-teal-700">
+        <NavLink
+          to="/products"
+          className="flex items-center gap-2 text-teal-700"
+        >
           <Boxes size={26} strokeWidth={2} />
 
           <span className="font-display text-xl font-bold tracking-tight">
             Store
           </span>
-        </div>
+        </NavLink>
 
-        {/* Actions */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-6">
 
-          <button
-            type="button"
-            className="text-slate-600 transition hover:text-teal-700"
-            aria-label="Search"
+          <NavLink
+            to="/products"
+            className={linkClasses}
           >
-            <Search size={20} strokeWidth={1.75} />
-          </button>
+            Products
+          </NavLink>
 
-          <button
-            type="button"
-            className="flex items-center gap-2 text-slate-700 transition hover:text-teal-700"
+          <NavLink
+            to="/cart"
+            className="flex items-center gap-2 text-slate-600 transition hover:text-teal-700"
           >
             <ShoppingCart size={20} strokeWidth={1.75} />
-            <span className="hidden sm:inline">Cart</span>
-          </button>
+            <span>Cart</span>
+          </NavLink>
 
         </div>
       </div>
