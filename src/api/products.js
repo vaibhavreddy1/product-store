@@ -13,3 +13,12 @@ export async function getProductById(id) {
 
   return response.data;
 }
+
+export async function createProduct(product) {
+  const response = await axios.post(
+    `${API_URL}/add`,
+    product
+  );
+
+  return response.data;
+}
